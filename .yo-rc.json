@@ -1,0 +1,32 @@
+{
+  "generator-jhipster": {
+    "applicationType": "monolith",
+    "authenticationType": "jwt",
+    "baseName": "tyseGeneral",
+    "buildTool": "maven",
+    "cacheProvider": "ehcache",
+    "clientFramework": "react",
+    "clientTestFrameworks": [],
+    "clientTheme": "none",
+    "creationTimestamp": 1755178650920,
+    "databaseType": "sql",
+    "devDatabaseType": "postgresql",
+    "enableHibernateCache": true,
+    "enableTranslation": false,
+    "entities": [],
+    "feignClient": null,
+    "jhipsterVersion": "8.8.0",
+    "jwtSecretKey": "OWVhNjlmYmQ4NzVjZDZjZTQ0YmY1MjQ0NTE4OTFiMDMwNzI0OTk2MzVjMWI0MDJmODFkZWJhNTVkYzAxYTBjODkwM2JlNzIwMWQ5YTM4YjM2NjdhNDFkZmYzYzUyM2YxNTllY2Q0ZThmZjNjY2YwODA4NTFmNDQzMDhjNDViOTk=",
+    "microfrontend": null,
+    "microfrontends": [],
+    "nativeLanguage": "es",
+    "packageName": "com.tyse.general",
+    "prodDatabaseType": "postgresql",
+    "reactive": false,
+    "serverPort": null,
+    "serviceDiscoveryType": null,
+    "syncUserWithIdp": null,
+    "testFrameworks": [],
+    "withAdminUi": true
+  }
+}
