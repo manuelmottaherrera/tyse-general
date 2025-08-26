@@ -110,11 +110,6 @@ export const RegisterPage = () => {
             <Link to="/login" className="alert-link">
               iniciar sesión
             </Link>
-            <span>
-              , puede intentar con las cuentas predeterminadas:
-              <br />- Administrador (usuario=&quot;admin&quot; y contraseña=&quot;admin&quot;) <br />- Usuario (usuario=&quot;user&quot; y
-              contraseña=&quot;user&quot;).
-            </span>
           </Alert>
         </Col>
       </Row>

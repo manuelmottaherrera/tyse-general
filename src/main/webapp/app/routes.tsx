@@ -4,6 +4,7 @@ import { Route } from 'react-router';
 import Loadable from 'react-loadable';
 
 import Login from 'app/modules/login/login';
+import LoginTyse from 'app/modules/login/login-tyse';
 import Register from 'app/modules/account/register/register';
 import Activate from 'app/modules/account/activate/activate';
 import PasswordResetInit from 'app/modules/account/password-reset/init/password-reset-init';
@@ -31,8 +32,10 @@ const AppRoutes = () => {
   return (
     <div className="view-routes">
       <ErrorBoundaryRoutes>
-        <Route index element={<Home />} />
+        {/* <Route index element={<Home />} /> */}
         <Route path="login" element={<Login />} />
+        {/* <Route path="login-tyse" element={<LoginTyse />} /> */}
+        <Route index element={<LoginTyse />} />
         <Route path="logout" element={<Logout />} />
         <Route path="account">
           <Route
