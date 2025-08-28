@@ -98,7 +98,7 @@ module.exports = async options =>
       ),
       new WebpackNotifierPlugin({
         title: 'Tyse General',
-        contentImage: path.join(__dirname, 'logo-jhipster.png'),
+        contentImage: path.join(__dirname, 'TySE_LOGO_48x48.png'),
       }),
     ].filter(Boolean),
   });
