@@ -4,6 +4,7 @@ import static com.tyse.general.security.SecurityUtils.AUTHORITIES_KEY;
 import static com.tyse.general.security.SecurityUtils.JWT_ALGORITHM;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.tyse.general.service.RecaptchaService;
 import com.tyse.general.web.rest.vm.LoginVM;
 import jakarta.validation.Valid;
 import java.security.Principal;
@@ -47,13 +48,25 @@ public class AuthenticateController {
 
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
 
-    public AuthenticateController(JwtEncoder jwtEncoder, AuthenticationManagerBuilder authenticationManagerBuilder) {
+    private final RecaptchaService recaptchaService;
+
+    public AuthenticateController(
+        JwtEncoder jwtEncoder,
+        AuthenticationManagerBuilder authenticationManagerBuilder,
+        RecaptchaService recaptchaService
+    ) {
         this.jwtEncoder = jwtEncoder;
         this.authenticationManagerBuilder = authenticationManagerBuilder;
+        this.recaptchaService = recaptchaService;
     }
 
     @PostMapping("/authenticate")
     public ResponseEntity<JWTToken> authorize(@Valid @RequestBody LoginVM loginVM) {
+        if (false && !recaptchaService.verifyRecaptcha(loginVM.getRecaptchaToken(), "login")) {
+            LOG.warn("Recaptcha verification failed for user: {}", loginVM.getUsername());
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
             loginVM.getUsername(),
             loginVM.getPassword()
