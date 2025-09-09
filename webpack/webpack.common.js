@@ -7,6 +7,7 @@ const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const ESLintPlugin = require('eslint-webpack-plugin');
 const utils = require('./utils.js');
 const environment = require('./environment');
+const dotenv = require('dotenv');
 
 const getTsLoaderRule = () => {
   const rules = [
@@ -29,6 +30,8 @@ const getTsLoaderRule = () => {
   ];
   return rules;
 };
+
+dotenv.config();
 
 module.exports = async options => {
   const development = options.env === 'development';
@@ -90,6 +93,7 @@ module.exports = async options => {
           DEVELOPMENT: JSON.stringify(development),
           VERSION: JSON.stringify(environment.VERSION),
           SERVER_API_URL: JSON.stringify(environment.SERVER_API_URL),
+          'process.env': JSON.stringify(process.env),
         }),
         new ESLintPlugin({
           configType: 'flat',
