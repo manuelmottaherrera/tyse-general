@@ -18,16 +18,6 @@ public class LoginVM {
 
     private boolean rememberMe;
 
-    private String recaptchaToken;
-
-    public String getRecaptchaToken() {
-        return recaptchaToken;
-    }
-
-    public void setRecaptchaToken(String recaptchaToken) {
-        this.recaptchaToken = recaptchaToken;
-    }
-
     public String getUsername() {
         return username;
     }

@@ -33,15 +33,16 @@ export const App = () => {
   const ribbonEnv = useAppSelector(state => state.applicationProfile.ribbonEnv);
   const isInProduction = useAppSelector(state => state.applicationProfile.inProduction);
   const isOpenAPIEnabled = useAppSelector(state => state.applicationProfile.isOpenAPIEnabled);
+  const siteKey = process.env.REACT_APP_RECAPTCHA_SITE_KEY || '';
 
   const paddingTop = '60px';
   return (
     <GoogleReCaptchaProvider
-      reCaptchaKey="6LcTfbMrAAAAAMacnaSmBmMfQs-KpQNkE7hhpNFd"
+      reCaptchaKey={siteKey}
       scriptProps={{
-        async: true, // optional, default to false,
-        defer: true, // optional, default to false
-        appendTo: 'head', // optional, default to "head", can be "head" or "body",
+        async: false,
+        defer: true,
+        appendTo: 'head',
       }}
       language="es"
     >

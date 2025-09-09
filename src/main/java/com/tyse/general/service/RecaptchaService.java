@@ -1,6 +1,6 @@
 package com.tyse.general.service;
 
-import com.tyse.general.service.dto.RecaptchaResponseDTO;
+import com.tyse.general.service.dto.RecaptchaAPIResponseDTO;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
@@ -23,8 +23,7 @@ public class RecaptchaService {
         params.add("response", token);
 
         try {
-            RecaptchaResponseDTO response = restTemplate.postForObject(RECAPTCHA_VERIFY_URL, params, RecaptchaResponseDTO.class);
-
+            RecaptchaAPIResponseDTO response = restTemplate.postForObject(RECAPTCHA_VERIFY_URL, params, RecaptchaAPIResponseDTO.class);
             return response != null && response.isSuccess() && response.getScore() >= 0.5 && action.equals(response.getAction());
         } catch (Exception e) {
             return false;

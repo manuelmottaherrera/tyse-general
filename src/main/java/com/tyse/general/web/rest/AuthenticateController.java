@@ -48,25 +48,13 @@ public class AuthenticateController {
 
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
 
-    private final RecaptchaService recaptchaService;
-
-    public AuthenticateController(
-        JwtEncoder jwtEncoder,
-        AuthenticationManagerBuilder authenticationManagerBuilder,
-        RecaptchaService recaptchaService
-    ) {
+    public AuthenticateController(JwtEncoder jwtEncoder, AuthenticationManagerBuilder authenticationManagerBuilder) {
         this.jwtEncoder = jwtEncoder;
         this.authenticationManagerBuilder = authenticationManagerBuilder;
-        this.recaptchaService = recaptchaService;
     }
 
     @PostMapping("/authenticate")
     public ResponseEntity<JWTToken> authorize(@Valid @RequestBody LoginVM loginVM) {
-        if (false && !recaptchaService.verifyRecaptcha(loginVM.getRecaptchaToken(), "login")) {
-            LOG.warn("Recaptcha verification failed for user: {}", loginVM.getUsername());
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
-        }
-
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
             loginVM.getUsername(),
             loginVM.getPassword()
@@ -81,7 +69,8 @@ public class AuthenticateController {
     }
 
     /**
-     * {@code GET /authenticate} : check if the user is authenticated, and return its login.
+     * {@code GET /authenticate} : check if the user is authenticated, and return
+     * its login.
      *
      * @param principal the authentication principal.
      * @return the login if the user is authenticated.

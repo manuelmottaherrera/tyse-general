@@ -1,11 +1,10 @@
-import React, { useState, useCallback } from 'react';
+import React from 'react';
 import { type FieldError, useForm } from 'react-hook-form';
 import { ValidatedField } from 'react-jhipster';
 import { Alert, Button, Col, Form, Modal, ModalBody, ModalFooter, ModalHeader, Row } from 'reactstrap';
-
 import { Link } from 'react-router-dom';
 
-import ReCaptchaComponent from 'app/shared/components/recaptcha/recaptcha-component';
+import useRecaptcha from 'app/shared/custom-hooks/recaptcha/useRecaptcha';
 import BrandLogo from 'app/shared/components/brand-logo/brand-logo';
 
 export interface ILoginModalProps {
@@ -16,14 +15,22 @@ export interface ILoginModalProps {
 }
 
 export default function LoginModal(props: ILoginModalProps) {
-  const login = ({ username, password, rememberMe }) => {
-    props.handleLogin(username, password, rememberMe);
+  const { verifyRecaptcha, isLoadingRecaptcha, errorRecaptcha } = useRecaptcha('login');
+  const login = async ({ username, password, rememberMe }) => {
+    const validRecaptcha: boolean = await verifyRecaptcha();
+    if (errorRecaptcha) {
+      setError('root.recaptcha', { type: 'manual', message: errorRecaptcha || 'reCaptcha no válido' });
+    }
+    if (validRecaptcha === true) {
+      props.handleLogin(username, password, rememberMe);
+    }
   };
 
   const {
     handleSubmit,
     register,
-    formState: { errors, touchedFields },
+    formState: { errors, touchedFields, isSubmitting },
+    setError,
   } = useForm({ mode: 'onTouched' });
 
   const { loginError, handleClose } = props;
@@ -45,8 +52,13 @@ export default function LoginModal(props: ILoginModalProps) {
             </Col>
             <Col md="12">
               {loginError ? (
-                <Alert color="danger" data-cy="loginError">
+                <Alert color="danger" data-cy="loginError" fade={false}>
                   <strong>¡El inicio de sesión ha fallado!</strong> Por favor, revise las credenciales e intente de nuevo.
+                </Alert>
+              ) : null}
+              {errorRecaptcha ? (
+                <Alert color="danger" data-cy="recaptchaError" fade={false}>
+                  <strong>¡Error de reCAPTCHA!</strong> {errorRecaptcha}
                 </Alert>
               ) : null}
             </Col>
@@ -83,7 +95,6 @@ export default function LoginModal(props: ILoginModalProps) {
                 value={false}
                 register={register}
               />
-              <ReCaptchaComponent />
             </Col>
           </Row>
           <div className="mt-1">&nbsp;</div>
@@ -100,8 +111,8 @@ export default function LoginModal(props: ILoginModalProps) {
           <Button color="secondary" onClick={handleClose} tabIndex={1}>
             Cancelar
           </Button>
-          <Button color="primary" type="submit" data-cy="submit" tabIndex={2}>
-            Iniciar Sesión
+          <Button color="primary" type="submit" data-cy="submit" tabIndex={2} disabled={isSubmitting || isLoadingRecaptcha}>
+            {isSubmitting || isLoadingRecaptcha ? 'Verificando...' : 'Iniciar Sesión'}
           </Button>
         </ModalFooter>
       </Form>
